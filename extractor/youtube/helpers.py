@@ -15,3 +15,9 @@ def clean_channel(raw_channel):
     for substr in dirt:
         clean_channel = clean_channel.replace(substr, "")
     return clean_channel.strip()
+\
+# To escape KeyError
+def check_key_get_value(data, key):
+    if(key in data.keys()):
+        return data[key]
+    return None
