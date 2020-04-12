@@ -5,4 +5,7 @@ def yt_validate(yt_link) :
                 return True
         return False
 
-       
+def is_short_link(yt_link):
+        if(bool(re.match("^https://youtu.be/", yt_link))):
+                return True
+        return False
