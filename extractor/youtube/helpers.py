@@ -1,4 +1,4 @@
-from validator import is_short_link
+from extractor.youtube.validator import is_short_link
 
 # Get long youtube link from shortened link
 def get_yt_link(link):

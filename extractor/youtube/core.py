@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-from helpers import get_yt_link
-from scrapers import scrape_embedded_yt_metadata, scrape_yt
+from extractor.youtube.helpers import get_yt_link
+from extractor.youtube.scrapers import scrape_embedded_yt_metadata, scrape_yt
 
 def get_yt_info(url):
     link = get_yt_link(url)

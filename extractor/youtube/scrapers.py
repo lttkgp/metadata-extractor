@@ -1,6 +1,6 @@
 from youtube_title_parse import get_artist_title
-from helpers import clean_channel, check_key_get_value
-from ytinfo import YouTubeInfo
+from extractor.youtube.helpers import clean_channel, check_key_get_value
+from extractor.youtube.ytinfo import YouTubeInfo
 
 # Scrapper function for videos without "Music in this video" section
 def scrape_yt(soup):
