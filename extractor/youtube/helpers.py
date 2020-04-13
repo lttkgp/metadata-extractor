@@ -1,10 +1,6 @@
-from extractor.youtube.validator import is_short_link
-
 # Get long youtube link from shortened link
 def get_yt_link(link):
-    if is_short_link(link) :
-        return "https://www.youtube.com/watch?v={}".format(get_yt_code(link))
-    return link
+    return "https://www.youtube.com/watch?v={}".format(get_yt_code(link))
 
 def get_yt_code(link):
     return link[-11:]

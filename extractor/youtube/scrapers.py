@@ -5,7 +5,7 @@ from extractor.youtube.ytinfo import YouTubeInfo
 # Scrapper function for videos without "Music in this video" section
 def scrape_yt(soup):
     raw_title = soup.find('meta', {'property': 'og:title'}).get('content').strip()
-    artist,title = None,None
+    artist,title = None, None
 
     #In case the YouTube Title is in the commonly used format <Artist> - <Song name>
     if '-' in raw_title:

@@ -1,16 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
-from extractor.youtube.helpers import get_yt_link
 from extractor.youtube.scrapers import scrape_embedded_yt_metadata, scrape_yt
 from extractor.youtube.validator import yt_validate, available_video
 
 def get_yt_info(url):
-    if(yt_validate(url)):
-        link = get_yt_link(url)
-    else:
+    if(not yt_validate(url)):
         raise ValueError("Enter YouTube URL!")
 
-    response = requests.get(link)
+    response = requests.get(url)
     soup = BeautifulSoup(response.content, 'lxml')
     
     if(not available_video(soup)):
