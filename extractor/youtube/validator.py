@@ -1,7 +1,11 @@
 import re
 
-def validate_yt(link): 
-    if(bool(re.match("https://\w{0,3}.?youtube+\.\w{2,3}/watch\?v=[\w-]{11}", link) or bool(re.match("https://youtu.be/[\w-]{11}", link))):
-            return True
-    return False
+def yt_validate(yt_link) :
+        if(bool(re.match("http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?", yt_link))):
+                return True
+        return False
 
+def available_video(soup):
+        if(soup.find('meta', {'property': 'og:title'})):
+                return True
+        return False
