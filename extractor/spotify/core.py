@@ -9,11 +9,3 @@ spotify_client = Spotify(client_credentials_manager=client_credentials_manager)
 
 def search(query):
     return spotify_client.search(q=query['q'], type=query['type'], limit=1)
-
-if __name__ == "__main__":
-    import json
-    with open('sample.json', 'w') as f:
-        json.dump(search({
-            'q': 'Bohemian Rhapsody',
-            'type': 'track'
-        }), f)
