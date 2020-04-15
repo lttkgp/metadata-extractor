@@ -1,14 +1,19 @@
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials
 from dotenv import load_dotenv, find_dotenv
-import urllib.parse as parser
-
 load_dotenv(find_dotenv())
 # env variables: SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET
 
 client_credentials_manager = SpotifyClientCredentials()
-sp = Spotify(client_credentials_manager=client_credentials_manager)
+spotify_client = Spotify(client_credentials_manager=client_credentials_manager)
 
 def search(query):
-    return sp.search(q=parser.quote(query['q']), limit=query['limit'])
+    return spotify_client.search(q=query['q'], type=query['type'], limit=1)
 
+if __name__ == "__main__":
+    import json
+    with open('sample.json', 'w') as f:
+        json.dump(search({
+            'q': 'Bohemian Rhapsody',
+            'type': 'track'
+        }), f)
