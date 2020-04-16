@@ -15,5 +15,5 @@ class SongData:
             self.artists = sp_data.artists
             self.album = sp_data.album
         else:
-            self.artists = yt_data.artist.split(', ')
+            self.artists = yt_data.artist
             self.album = yt_data.album
