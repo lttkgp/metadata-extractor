@@ -1,4 +1,4 @@
-from extractor.spotify.client import spotify_client
+from music_metadata_extractor.spotify.client import spotify_client
 
 class Track:
     def __init__(self, id):

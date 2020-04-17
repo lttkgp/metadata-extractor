@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-from extractor.youtube.scrapers import scrape_embedded_yt_metadata, scrape_yt
-from extractor.youtube.validator import yt_validate, available_video
+from music_metadata_extractor.youtube.scrapers import scrape_embedded_yt_metadata, scrape_yt
+from music_metadata_extractor.youtube.validator import yt_validate, available_video
 
 def get_yt_info(url):
     if(not yt_validate(url)):

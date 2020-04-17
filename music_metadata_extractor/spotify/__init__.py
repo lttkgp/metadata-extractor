@@ -1,5 +1,5 @@
-from extractor.spotify.core import Track
-from extractor.spotify.client import spotify_client
+from music_metadata_extractor.spotify.core import Track
+from music_metadata_extractor.spotify.client import spotify_client
 
 def get_track(**kwargs):
     if('artist' in kwargs.keys()):

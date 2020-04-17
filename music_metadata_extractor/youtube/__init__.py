@@ -1,0 +1,1 @@
+from music_metadata_extractor.youtube.core import get_yt_info

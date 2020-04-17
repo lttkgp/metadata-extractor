@@ -1,5 +1,5 @@
-from extractor.youtube import get_yt_info
-from extractor.spotify import get_track
+from music_metadata_extractor.youtube import get_yt_info
+from music_metadata_extractor.spotify import get_track
 
 class SongData:
     def __init__(self, yt_url):
