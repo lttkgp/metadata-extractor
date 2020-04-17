@@ -1,0 +1,6 @@
+beautifulsoup4
+lxml
+python-dotenv
+requests
+spotipy
+youtube-title-parse
