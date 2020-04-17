@@ -9,7 +9,7 @@ def get_yt_info(url):
 
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'lxml')
-    
+
     if(not available_video(soup)):
         raise ValueError("Invalid YouTube URL!")
 
