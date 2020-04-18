@@ -1,10 +1,12 @@
 def is_valid_url(soup) -> bool:
+    """Verify if URL is of a valid video page"""
     if soup.find("meta", {"property": "og:title"}):
         return True
     return False
 
 
 def clean_channel(raw_channel: str) -> str:
+    """Clean channel name"""
     clean_channel = raw_channel
     dirt = ["-", "topic", "Topic"]
     for substr in dirt:

@@ -6,6 +6,7 @@ from music_metadata_extractor.models import BaseProviderInput
 
 
 def get_info(url: str) -> BaseProviderInput:
+    """Generate provider input object for YouTube URL"""
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "lxml")
 

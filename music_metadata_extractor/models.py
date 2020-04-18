@@ -3,6 +3,8 @@ from typing import List
 
 
 class Track:
+    """Class to model a track/song"""
+
     def __init__(
         self,
         provider_id: str,
@@ -27,22 +29,24 @@ class Track:
 
     def __repr__(self):
         return (
-            "<Track(provider_id=%s, name=%s, is_cover=%s, original_id=%s, popularity=%d, year=%s, explicit=%s, image_id=%s, genres=%s)>"
-            % (
-                self.provider_id,
-                self.name,
-                self.is_cover,
-                self.original_id,
-                self.popularity,
-                self.year,
-                self.explicit,
-                self.image_id,
-                self.genre,
-            )
+            "<Track(provider_id=%s, name=%s, is_cover=%s, original_id=%s,"
+            "popularity=%d, year=%s, explicit=%s, image_id=%s, genres=%s)>"
+        ) % (
+            self.provider_id,
+            self.name,
+            self.is_cover,
+            self.original_id,
+            self.popularity,
+            self.year,
+            self.explicit,
+            self.image_id,
+            self.genre,
         )
 
 
 class Artist:
+    """Class to model an artist"""
+
     def __init__(self, provider_id: str, name: str, image_id: str, genres: List[str]):
         self.provider_id: str = provider_id
         self.name: str = name
@@ -59,17 +63,35 @@ class Artist:
 
 
 class ProviderData:
+    """Class whose instance is expected to be returned by metadata provider"""
+
     def __init__(self, track: Track, artists: List[Artist]):
         self.track: Track = track
         self.artists: List[Artist] = artists
 
 
 class BaseProviderInput:
+    """
+    Base input class whose object is to be sent to provider as input. Having
+    a base class here is mostly for syntactic purposes to unify the different
+    types of input objects supported by metadata providers. This class in itself
+    has no information and should be extended by concerete input types.
+
+    The different input types that cover a wide variety of use cases are:
+    - StringInput: A string (presumably the title fetched from the input link)
+    - DictInput: A dict containing song and artist name fetched from the input
+      link by some heurisitcs
+    - ProviderInput: A URL that the provider directly understands (ex. Spotify
+      API will understand Spotify links)
+    """
+
     def __init__(self):
         super().__init__()
 
 
 class StringInput(BaseProviderInput):
+    """Provider input class with a search string"""
+
     def __init__(self, title_string: str):
         self.title_string: str = title_string
 
@@ -78,6 +100,8 @@ class StringInput(BaseProviderInput):
 
 
 class DictInput(BaseProviderInput):
+    """Provider input class with a dict that contains song and artist name"""
+
     def __init__(self, song_name: str, artist_name: str):
         self.song_name: str = song_name
         self.artist_name: str = artist_name
@@ -90,6 +114,8 @@ class DictInput(BaseProviderInput):
 
 
 class ProviderInput(BaseProviderInput):
+    """Provider input class with a url that the provider understands"""
+
     def __init__(self, provider_url: str):
         self.provider_url: str = provider_url
 
@@ -98,30 +124,42 @@ class ProviderInput(BaseProviderInput):
 
 
 class BaseProvider(ABC):
+    """
+    Abstract class whose methods are to be implemented by concrete providers.
+    The abstract class handles the job of resolving which method to invoke
+    based on the type of input object.
+    """
+
     def __init__(self, input: BaseProviderInput):
+        """Resolve input handler and initialize data"""
         if isinstance(input, StringInput):
-            self.data = self.handle_string_input(input.title_string)
+            self.data: ProviderData = self.handle_string_input(input.title_string)
         elif isinstance(input, DictInput):
-            self.data = self.handle_dict_input(input.song_name, input.artist_name)
+            self.data: ProviderData = self.handle_dict_input(
+                input.song_name, input.artist_name
+            )
         elif isinstance(input, ProviderInput):
-            self.data = self.handle_provider_input(input.provider_url)
+            self.data: ProviderData = self.handle_provider_input(input.provider_url)
         else:
             raise TypeError("Invalid input type")
 
     @abstractmethod
     def handle_string_input(self, title_string: str) -> ProviderData:
+        """Handle input of type StringInput"""
         raise NotImplementedError(
             "Provider implementation must override handle_input_string(input)"
         )
 
     @abstractmethod
     def handle_dict_input(self, song_name: str, artist_name: str) -> ProviderData:
+        """Handle input of type DictInput"""
         raise NotImplementedError(
             "Provider implementation must override handle_dict_input(input)"
         )
 
     @abstractmethod
     def handle_provider_input(self, provider_url: str) -> ProviderData:
+        """Handle input of type ProviderInput"""
         raise NotImplementedError(
             "Provider implementation must override handle_provider_input(input)"
         )
