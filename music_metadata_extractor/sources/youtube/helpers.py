@@ -1,10 +1,10 @@
-def is_valid_url(soup):
+def is_valid_url(soup) -> bool:
     if soup.find("meta", {"property": "og:title"}):
         return True
     return False
 
 
-def clean_channel(raw_channel):
+def clean_channel(raw_channel: str) -> str:
     clean_channel = raw_channel
     dirt = ["-", "topic", "Topic"]
     for substr in dirt:

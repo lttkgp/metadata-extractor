@@ -1,9 +1,9 @@
 from youtube_title_parse import get_artist_title
 from .helpers import clean_channel, check_key_get_value
-from music_metadata_extractor.models import StringInput, DictInput
+from music_metadata_extractor.models import BaseProviderInput, StringInput, DictInput
 
 # Scrapper function for videos without "Music in this video" section
-def scrape_yt(soup):
+def scrape_yt(soup) -> BaseProviderInput:
     if len(soup.find_all("li", class_="watch-meta-item yt-uix-expander-body")) > 1:
         output = scrape_embedded_yt_metadata(soup)
         if output.song_name is not None and output.artist_name is not None:
@@ -32,7 +32,7 @@ def scrape_yt(soup):
 
 
 # Scrapper function for videos with "Music in this video" section
-def scrape_embedded_yt_metadata(soup):
+def scrape_embedded_yt_metadata(soup) -> BaseProviderInput:
     tags = soup.find_all("li", class_="watch-meta-item yt-uix-expander-body")
 
     info = {}

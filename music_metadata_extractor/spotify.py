@@ -1,26 +1,27 @@
+from typing import List
 from spotipy import Spotify
 from .utils import get_spotify_client
-from .models import BaseProvider, ProviderData
+from .models import BaseProvider, ProviderData, BaseProviderInput
 from .models import Track, Artist
 
 SPOTIFY_CLIENT = get_spotify_client()
 
 
 class SpotifyProvider(BaseProvider):
-    def __init__(self, input):
+    def __init__(self, input: BaseProviderInput):
         super().__init__(input)
 
-    def handle_string_input(self, title_string):
+    def handle_string_input(self, title_string: str) -> ProviderData:
         return search(title=title_string)
 
-    def handle_dict_input(self, song_name, artist_name):
+    def handle_dict_input(self, song_name: str, artist_name: str) -> ProviderData:
         return search(title=song_name, artist=artist_name)
 
-    def handle_provider_input(self, provider_url):
+    def handle_provider_input(self, provider_url: str) -> ProviderData:
         return search(id=provider_url)
 
 
-def get_artist(id):
+def get_artist(id: str) -> Artist:
     response = SPOTIFY_CLIENT.artist(id)
     artist_id = response["id"]
     artist_name = response["name"]
@@ -30,7 +31,7 @@ def get_artist(id):
     return artist
 
 
-def get_artists(ids):
+def get_artists(ids: List[str]) -> List[Artist]:
     artists = []
     response = SPOTIFY_CLIENT.artists(ids)
     for artist in response["artists"]:
@@ -43,7 +44,7 @@ def get_artists(ids):
     return artists
 
 
-def parse_track_response(track_data):
+def parse_track_response(track_data: dict) -> ProviderData:
     track_id = track_data["id"]
     song_name = track_data["name"]
     is_cover = False
