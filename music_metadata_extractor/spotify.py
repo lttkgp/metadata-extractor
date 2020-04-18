@@ -11,15 +11,13 @@ class SpotifyProvider(BaseProvider):
         super().__init__(input)
 
     def handle_string_input(self, title_string):
-        provider_data = search(title=title_string)
-        return ProviderData()
+        return search(title=title_string)
 
     def handle_dict_input(self, song_name, artist_name):
-        provider_data = search(title=song_name, artist=artist_name)
-        return ProviderData()
+        return search(title=song_name, artist=artist_name)
 
     def handle_provider_input(self, provider_url):
-        raise NotImplementedError("Searching by Spotify URL not yet supported")
+        return search(id=provider_url)
 
 
 def get_artist(id):
@@ -29,16 +27,17 @@ def get_artist(id):
     artist_image = response["images"][0]["url"]
     genres = [genre for genre in response["genres"]]
     artist = Artist(artist_id, artist_name, artist_image, genres)
+    return artist
 
 
 def get_artists(ids):
     artists = []
     response = SPOTIFY_CLIENT.artists(ids)
-    for artist in response:
+    for artist in response["artists"]:
         artist_id = artist["id"]
         artist_name = artist["name"]
         artist_image = artist["images"][0]["url"]
-        genres = [genre for genre in response["genres"]]
+        genres = [genre for genre in artist["genres"]]
         artist = Artist(artist_id, artist_name, artist_image, genres)
         artists.append(artist)
     return artists
@@ -71,9 +70,14 @@ def parse_track_response(track_data):
     artist_ids = [artist["id"] for artist in track_data["artists"]]
     artists = get_artists(artist_ids)
 
+    provider_data = ProviderData(track, artists)
+    return provider_data
+
 
 def search(**kwargs):
-    if "artist" in kwargs.keys():
+    if "id" in kwargs.keys():
+        response = SPOTIFY_CLIENT.track(id)
+    elif "artist" in kwargs.keys():
         response = SPOTIFY_CLIENT.search(
             q=f"{kwargs['title']} artist:{kwargs['artist']}", type="track", limit=1
         )

@@ -11,6 +11,4 @@ def get_info(url):
     if not is_valid_url(soup):
         raise ValueError("Invalid YouTube URL!")
 
-    if len(soup.find_all("li", class_="watch-meta-item yt-uix-expander-body")) > 1:
-        return scrape_embedded_yt_metadata(soup)
     return scrape_yt(soup)
