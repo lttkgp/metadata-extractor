@@ -131,3 +131,6 @@ dmypy.json
 # VS Code workspace files
 .vscode
 *.code-workspace
+
+# Requirements file
+requirements.txt
