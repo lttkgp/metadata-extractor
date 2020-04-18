@@ -4,15 +4,25 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
+attrs==19.3.0             # via pytest
 beautifulsoup4==4.9.0     # via -r requirements.in
 certifi==2020.4.5.1       # via requests
 chardet==3.0.4            # via requests
 idna==2.9                 # via requests
+importlib-metadata==1.6.0  # via pluggy, pytest
 lxml==4.5.0               # via -r requirements.in
+more-itertools==8.2.0     # via pytest
+packaging==20.3           # via pytest
+pluggy==0.13.1            # via pytest
+py==1.8.1                 # via pytest
+pyparsing==2.4.7          # via packaging
+pytest==5.4.1             # via -r requirements.in
 python-dotenv==0.12.0     # via -r requirements.in
 requests==2.23.0          # via -r requirements.in, spotipy
-six==1.14.0               # via spotipy
+six==1.14.0               # via packaging, spotipy
 soupsieve==2.0            # via beautifulsoup4
 spotipy==2.10.0           # via -r requirements.in
 urllib3==1.25.8           # via requests
+wcwidth==0.1.9            # via pytest
 youtube-title-parse==1.0.0b2  # via -r requirements.in
+zipp==3.1.0               # via importlib-metadata

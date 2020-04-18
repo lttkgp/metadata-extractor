@@ -4,3 +4,4 @@ python-dotenv
 requests
 spotipy
 youtube-title-parse
+pytest

@@ -1,1 +1,1 @@
-from music_metadata_extractor.song_data import SongData
+from .songdata import SongData

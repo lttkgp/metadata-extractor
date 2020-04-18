@@ -23,10 +23,8 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
     ],
-    packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+    packages=find_packages(exclude=["contrib", "docs", "tests*"]),
     include_package_data=True,
     install_requires=[],
-    entry_points={
-        "console_scripts": []
-    },
+    entry_points={"console_scripts": []},
 )
