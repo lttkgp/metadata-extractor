@@ -116,8 +116,6 @@ def search(**kwargs) -> ProviderData:
     else:
         response = SPOTIFY_CLIENT.search(q=f"{kwargs['title']}", type="track", limit=1)
     
-    print(response)
-
     try:
         track_data = response["tracks"]["items"][0]
         response = parse_track_response(track_data)
