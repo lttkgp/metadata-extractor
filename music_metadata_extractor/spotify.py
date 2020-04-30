@@ -120,5 +120,5 @@ def search(**kwargs) -> ProviderData:
         track_data = response["tracks"]["items"][0]
         response = parse_track_response(track_data)
         return response
-    except:
-        raise IndexError("No data found in Spotify")
+    except IndexError as e:
+        raise IndexError("No data found in Spotify") from e
