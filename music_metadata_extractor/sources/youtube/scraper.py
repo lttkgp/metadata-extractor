@@ -1,6 +1,7 @@
 from youtube_title_parse import get_artist_title
 from .helpers import clean_channel, check_key_get_value
 from music_metadata_extractor.models import BaseProviderInput, StringInput, DictInput
+from datetime import datetime as dt
 
 
 def scrape_yt(soup) -> BaseProviderInput:
@@ -29,8 +30,11 @@ def scrape_yt(soup) -> BaseProviderInput:
             artist = clean_channel(artist)
         except AttributeError:
             artist = None
+    
+    yt_views = int(soup.find("div", class_="watch-view-count").text[:-6].replace(",",""))
+    yt_date = dt.strptime(soup.find("strong", class_="watch-time-text").text[-11:],"%d-%b-%Y")
 
-    return DictInput(title, artist)
+    return DictInput(title, artist,yt_views,yt_date)
 
 
 def scrape_embedded_yt_metadata(soup) -> BaseProviderInput:
@@ -46,4 +50,6 @@ def scrape_embedded_yt_metadata(soup) -> BaseProviderInput:
     return DictInput(
         song_name=check_key_get_value(info, "Song"),
         artist_name=check_key_get_value(info, "Artist"),
+        song_ytviews= int(soup.find("div", class_="watch-view-count").text[:-6].replace(",","")),
+        song_ytdate = dt.strptime(soup.find("strong", class_="watch-time-text").text[-11:],"%d-%b-%Y")
     )
