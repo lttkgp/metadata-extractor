@@ -115,8 +115,10 @@ def search(**kwargs) -> ProviderData:
         )
     else:
         response = SPOTIFY_CLIENT.search(q=f"{kwargs['title']}", type="track", limit=1)
-    track_data = response["tracks"]["items"][0]
-    if not track_data:
-        raise IndexError("No data found in Spotify")
-    response = parse_track_response(track_data)
-    return response
+    
+    try:
+        track_data = response["tracks"]["items"][0]
+        response = parse_track_response(track_data)
+        return response
+    except IndexError as e:
+        raise IndexError("No data found in Spotify") from e
