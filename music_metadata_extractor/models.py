@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from datetime import datetime as dt
+
 
 
 class Track:
@@ -103,17 +103,14 @@ class StringInput(BaseProviderInput):
 class DictInput(BaseProviderInput):
     """Provider input class with a dict that contains song and artist name"""
 
-    def __init__(self, song_name: str, artist_name: str, song_ytviews: int, song_ytdate: dt):
+    def __init__(self, song_name: str, artist_name: str):
         self.song_name: str = song_name
         self.artist_name: str = artist_name
-        self.song_ytviews: int = song_ytviews
-        self.song_ytdate: dt = song_ytdate 
+
     def __repr__(self):
-        return "<DictInput(song_name=%s, artist_name=%s, yt_views=%s, yt_date=%s)>" % (
+        return "<DictInput(song_name=%s, artist_name=%s)>" % (
             self.song_name,
             self.artist_name,
-            str(self.song_ytviews),
-            str(self.song_ytdate)
         )
 
 

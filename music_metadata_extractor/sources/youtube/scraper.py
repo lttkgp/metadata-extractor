@@ -4,13 +4,27 @@ from music_metadata_extractor.models import BaseProviderInput, StringInput, Dict
 from datetime import datetime as dt
 
 
+def __extraAttrs(soup):
+
+    yt_views = int(soup.find("div", class_="watch-view-count").text[:-6].replace(",",""))
+    yt_date = dt.strptime(soup.find("strong", class_="watch-time-text").text[-11:],"%d-%b-%Y")
+
+    return {
+        "youtube" : {
+            "views": yt_views,
+            "posted_date": yt_date
+        }
+    }
+
+    
+
 def scrape_yt(soup) -> BaseProviderInput:
-    """Scrapper function for YouTube videos"""
+    """Scraper function for YouTube videos"""
     # Check if video page has a "Music in this video" section
     if len(soup.find_all("li", class_="watch-meta-item yt-uix-expander-body")) > 1:
-        output = scrape_embedded_yt_metadata(soup)
+        output, extras = scrape_embedded_yt_metadata(soup)
         if output.song_name is not None and output.artist_name is not None:
-            return output
+            return output, extras
 
     raw_title = soup.find("meta", {"property": "og:title"}).get("content").strip()
     artist, title = None, None
@@ -31,10 +45,9 @@ def scrape_yt(soup) -> BaseProviderInput:
         except AttributeError:
             artist = None
     
-    yt_views = int(soup.find("div", class_="watch-view-count").text[:-6].replace(",",""))
-    yt_date = dt.strptime(soup.find("strong", class_="watch-time-text").text[-11:],"%d-%b-%Y")
+    extra = __extraAttrs(soup)
 
-    return DictInput(title, artist,yt_views,yt_date)
+    return DictInput(title, artist), extra
 
 
 def scrape_embedded_yt_metadata(soup) -> BaseProviderInput:
@@ -47,9 +60,8 @@ def scrape_embedded_yt_metadata(soup) -> BaseProviderInput:
         value = tag.find("ul").text.strip()
         info[key] = value
 
+    extras = __extraAttrs(soup)
     return DictInput(
         song_name=check_key_get_value(info, "Song"),
-        artist_name=check_key_get_value(info, "Artist"),
-        song_ytviews= int(soup.find("div", class_="watch-view-count").text[:-6].replace(",","")),
-        song_ytdate = dt.strptime(soup.find("strong", class_="watch-time-text").text[-11:],"%d-%b-%Y")
-    )
+        artist_name=check_key_get_value(info, "Artist")
+    ), extras

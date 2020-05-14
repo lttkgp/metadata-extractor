@@ -1,5 +1,5 @@
 from typing import List
-from .resolver import get_provider_input
+from .resolver import get_source_data
 from .spotify import SpotifyProvider
 from .models import Track, Artist, BaseProviderInput, BaseProvider
 import logging
@@ -9,7 +9,7 @@ class SongData:
 
     def __init__(self, input_url: str):
         """Constructor for the SongData class."""
-        provider_input: BaseProviderInput = get_provider_input(input_url)
+        provider_input,extraAttrs = get_source_data(input_url)
         try:
             provider_data: BaseProvider = SpotifyProvider(provider_input).data
             self.track: Track = provider_data.track
@@ -18,11 +18,10 @@ class SongData:
             logging.warning(e, stack_info=True)
             self.track: Track = Track(provider_id=None, name=provider_input.song_name, is_cover=None, original_id=None, popularity=None, year=None, explicit=None, image_id=None, genre=[])
             self.artists: List[Artist] = []
-        
-        self.yt_views = provider_input.song_ytviews
-        self.yt_date = provider_input.song_ytdate
+
+        self.extraAttrs : dict = extraAttrs
 
 
 
     def __repr__(self):
-        return "<SongData(\n\ttrack=%s,\n\tartists=%s,\n\tviews=%s,\n\tdate=%s\n)>" % (self.track, self.artists , str(self.yt_views), str(self.yt_date))
+        return "<SongData(\n\ttrack=%s,\n\tartists=%s,\n\textraAttrs=%s\n)>" % (self.track, self.artists , str(self.extraAttrs))
