@@ -1,5 +1,6 @@
 import re
 from enum import Enum
+from typing import Tuple
 from .sources import get_yt_info
 from .models import BaseProviderInput
 
@@ -29,7 +30,7 @@ def _resolve_link(input_url: str) -> SupportedSources:
     raise TypeError("Unsupported URL!")
 
 
-def get_source_data(input_url: str) -> BaseProviderInput:
+def get_source_data(input_url: str) -> Tuple[BaseProviderInput, dict]:
     """Get input object required by providers to fetch metadata"""
     source_type = _resolve_link(input_url)
     if source_type == SupportedSources.youtube:

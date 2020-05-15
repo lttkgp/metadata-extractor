@@ -29,7 +29,6 @@ class SongData:
                 genre=[],
             )
             self.artists: List[Artist] = []
-
         self.extraAttrs: dict = extraAttrs
 
     def __repr__(self):
