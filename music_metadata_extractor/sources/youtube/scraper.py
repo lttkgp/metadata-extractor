@@ -6,17 +6,15 @@ from datetime import datetime as dt
 
 def __extraAttrs(soup):
 
-    yt_views = int(soup.find("div", class_="watch-view-count").text[:-6].replace(",",""))
-    yt_date = dt.strptime(soup.find("strong", class_="watch-time-text").text[-11:],"%d-%b-%Y")
+    yt_views = int(
+        soup.find("div", class_="watch-view-count").text[:-6].replace(",", "")
+    )
+    yt_date = dt.strptime(
+        soup.find("strong", class_="watch-time-text").text[-11:], "%d-%b-%Y"
+    )
 
-    return {
-        "youtube" : {
-            "views": yt_views,
-            "posted_date": yt_date
-        }
-    }
+    return {"youtube": {"views": yt_views, "posted_date": yt_date}}
 
-    
 
 def scrape_yt(soup) -> BaseProviderInput:
     """Scraper function for YouTube videos"""
@@ -44,7 +42,7 @@ def scrape_yt(soup) -> BaseProviderInput:
             artist = clean_channel(artist)
         except AttributeError:
             artist = None
-    
+
     extra = __extraAttrs(soup)
 
     return DictInput(title, artist), extra
@@ -61,7 +59,10 @@ def scrape_embedded_yt_metadata(soup) -> BaseProviderInput:
         info[key] = value
 
     extras = __extraAttrs(soup)
-    return DictInput(
-        song_name=check_key_get_value(info, "Song"),
-        artist_name=check_key_get_value(info, "Artist")
-    ), extras
+    return (
+        DictInput(
+            song_name=check_key_get_value(info, "Song"),
+            artist_name=check_key_get_value(info, "Artist"),
+        ),
+        extras,
+    )
