@@ -10,9 +10,13 @@ def __extraAttrs(soup) -> dict:
     yt_views = int(
         soup.find("div", class_="watch-view-count").text[:-6].replace(",", "")
     )
-    yt_date = dt.strptime(
-        soup.find("strong", class_="watch-time-text").text[-11:], "%d-%b-%Y"
-    )
+    raw_yt_date = soup.find("strong", class_="watch-time-text").text[-11:].strip()
+    for fmt in ("%d-%b-%Y", "%d %b %Y"):
+        try:
+            yt_date = dt.strptime(raw_yt_date, fmt)
+            if yt_date: break
+        except ValueError as err:
+            pass
 
     return {"youtube": {"views": yt_views, "posted_date": yt_date}}
 
