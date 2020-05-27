@@ -8,7 +8,7 @@ from datetime import datetime as dt
 def __extraAttrs(soup) -> dict:
 
     yt_views = int(
-        soup.find("div", class_="watch-view-count").text[:-6].replace(",", "")
+        soup.find("div", class_="watch-view-count").text[:-7].replace(",", "")
     )
     raw_yt_date = soup.find("strong", class_="watch-time-text").text[-11:].strip()
 
