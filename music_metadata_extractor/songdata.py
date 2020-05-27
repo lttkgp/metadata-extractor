@@ -15,21 +15,21 @@ class SongData:
             provider_data: BaseProvider = SpotifyProvider(provider_input).data
             self.track: Track = provider_data.track
             self.artists: List[Artist] = provider_data.artists
-        except IndexError as e:
-            logging.warning(e, stack_info=True)
-            self.track: Track = Track(
-                provider_id=None,
-                name=provider_input.song_name,
-                is_cover=None,
-                original_id=None,
-                popularity=None,
-                year=None,
-                explicit=None,
-                image_id=None,
-                genre=[],
-            )
-            self.artists: List[Artist] = []
-        self.extraAttrs: dict = extraAttrs
+            self.extraAttrs: dict = extraAttrs
+        except ValueError as ve:
+            logging.warning(ve, stack_info=True)
+            raise ve
+        except IndexError as ie:
+            if str(ie) == "No data found in Spotify":
+                logging.warning(ie, stack_info=True)
+                raise ValueError("No data found on Spotify") from ie
+        except AttributeError as ae:
+            if str(ae) == "Error while parsing YouTube page":
+                logging.warning(ae, stack_info=True)
+                raise ValueError("Error while parsing YouTube page") from ie
+        except Exception as e:
+            logging.error(e, stack_info=True)
+            raise ValueError("Unable to fetch metadata for input link") from e
 
     def __repr__(self):
         return "<SongData(\n\ttrack=%s,\n\tartists=%s,\n\textraAttrs=%s\n)>" % (

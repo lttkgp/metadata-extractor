@@ -12,6 +12,14 @@ def get_info(url: str) -> Tuple[BaseProviderInput, dict]:
     soup = BeautifulSoup(response.content, "lxml")
 
     if not is_valid_url(soup):
-        raise ValueError("Invalid YouTube URL!")
+        raise ValueError("Video unavailable!")
 
-    return scrape_yt(soup)
+    try:
+        return scrape_yt(soup)
+    except AttributeError as ae:
+        if str(ae) == "'NoneType' object has no attribute 'text'":
+            raise Exception("Error while parsing YouTube page") from ae
+        else:
+            raise ae
+    except Exception as e:
+        raise e
