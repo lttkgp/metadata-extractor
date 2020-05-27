@@ -64,10 +64,6 @@ tests = [
         "expectation": Expected.NO_METADATA_FOUND,
     },
     {
-        "link": "https://www.youtube.com/watch?v=rTVjnBo96Ug",
-        "expectation": Expected.VIDEO_UNABAILABLE_TO_PARSER,
-    },
-    {
         "link": "https://youtu.be/DoqNQGakX7g",
         "expectation": Expected.PASS,
         "result": {"name": "Vision", "artists": ["Simmy"],},
@@ -90,10 +86,6 @@ tests = [
         "link": "https://www.youtube.com/watch?v=Ozo8LyvS4fE",
         "expectation": Expected.PASS,
         "result": {"name": "Let Me Live / Let Me Die", "artists": ["Des Rocs"],},
-    },
-    {
-        "link": "https://www.youtube.com/watch?v=BcqxLCWn-CE",
-        "expectation": Expected.VIDEO_UNABAILABLE_TO_PARSER,
     },
     {
         "link": "https://www.youtube.com/watch?v=4--OKda1qzU",
