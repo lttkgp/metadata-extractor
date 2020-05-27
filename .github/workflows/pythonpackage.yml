@@ -19,6 +19,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install lxml deps
+      run: |
+        sudo cp /etc/apt/sources.list /etc/apt/sources.list~
+        sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+        sudo apt-get update
+        sudo apt-get build-dep python3-lxml
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -28,6 +34,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Install package
+      run: |
+        python setup.py install
     - name: Test with pytest
+      env:
+        SPOTIPY_CLIENT_ID: ${{ secrets.SPOTIPY_CLIENT_ID }}
+        SPOTIPY_CLIENT_SECRET: ${{ secrets.SPOTIPY_CLIENT_SECRET }}
       run: |
         pytest
