@@ -19,6 +19,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install lxml deps
+      run: sudo apt-get build-dep python3-lxml
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
