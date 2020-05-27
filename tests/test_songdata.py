@@ -52,11 +52,6 @@ tests = [
             "artists": ["Graham Reynolds"],
         },
     },
-    {
-        "link": "https://youtu.be/Z3649dq6boA",
-        "expectation": Expected.PASS,
-        "result": {"name": "Hallelujah", "artists": ["2CELLOS"],},
-    },
     # Unavailable video
     {"link": "https://youtu.be/VrBKxr309i4", "expectation": Expected.VIDEO_UNAVAILABLE},
     {
