@@ -8,7 +8,7 @@ from datetime import datetime as dt
 def __extraAttrs(soup) -> dict:
 
     yt_views = int(
-        soup.find("div", class_="watch-view-count").text[:-7].replace(",", "")
+        soup.find("div", class_="watch-view-count").text[:-6].replace(",", "")
     )
     raw_yt_date = soup.find("strong", class_="watch-time-text").text[-11:].strip()
 
@@ -21,7 +21,7 @@ def __extraAttrs(soup) -> dict:
             if idx == len(supported_dt_formats) - 1:
                 raise IndexError("Unsupported YouTube date format")
         except ValueError as err:
-            raise err
+            pass
 
 
 def scrape_yt(soup) -> Tuple[BaseProviderInput, dict]:
