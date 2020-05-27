@@ -30,16 +30,11 @@ def scrape_yt(soup) -> Tuple[BaseProviderInput, dict]:
             return output, extras
 
     raw_title = soup.find("meta", {"property": "og:title"}).get("content").strip()
-    artist, title = None, None
 
-    # In case the YouTube Title is in the commonly used format <Artist> - <Song name>
-    if "-" in raw_title:
-        raw_title = get_artist_title(raw_title)
-        artist, title = raw_title.split(" - ")
-
-    # In case the  YouTube Title only contains song name
-    else:
-        title = get_artist_title(raw_title)
+    artist, title = get_artist_title(raw_title) or (None, None)
+    # If artist/title is found to be None, use video title as title and channel name as artist
+    if artist is None or title is None:
+        title = raw_title
         try:
             artist = soup.find(
                 "a", class_="yt-uix-sessionlink spf-link"

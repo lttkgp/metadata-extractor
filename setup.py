@@ -13,7 +13,7 @@ install_requires = [
     "python-dotenv==0.12.0",
     "requests==2.23.0",
     "spotipy==2.10.0",
-    "youtube-title-parse==1.0.0b2",
+    "youtube-title-parse==1.0.0",
 ]
 
 test_requires = ["pytest==5.4.1"]
