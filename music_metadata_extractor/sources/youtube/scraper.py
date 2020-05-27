@@ -12,7 +12,7 @@ def __extraAttrs(soup) -> dict:
     )
     raw_yt_date = soup.find("strong", class_="watch-time-text").text[-11:].strip()
 
-    supported_dt_formats = ["%d-%b-%Y", "%d %b %Y"]
+    supported_dt_formats = ["%d-%b-%Y", "%d %b %Y", "%d %b, %Y"]
     for idx, fmt in enumerate(supported_dt_formats):
         try:
             yt_date = dt.strptime(raw_yt_date, fmt)
