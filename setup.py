@@ -14,6 +14,9 @@ install_requires = [
     "requests==2.23.0",
     "spotipy==2.10.0",
     "youtube-title-parse==1.0.0",
+    "google-api-python-client==1.9.3",
+    "google-auth-oauthlib==0.4.1",
+    "google-auth-httplib2==0.0.3"
 ]
 
 tests_require = ["pytest==5.4.1"]
