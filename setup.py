@@ -16,7 +16,9 @@ install_requires = [
     "youtube-title-parse==1.0.0",
     "google-api-python-client==1.9.3",
     "google-auth-oauthlib==0.4.1",
-    "google-auth-httplib2==0.0.3"
+    "google-auth-httplib2==0.0.3",
+    "google-auth==1.18.0",
+    "python-dateutil==2.8.1"
 ]
 
 tests_require = ["pytest==5.4.1"]
