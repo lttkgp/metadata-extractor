@@ -18,7 +18,7 @@ class YouTubeScraped:
         self.url = url
         self.soup = soup
         try:
-            self.api_key = getenv('GOOGLE_API_KEY')
+            self.api_key = getenv('GOOGLE_APPLICATION_CREDENTIALS')
         except:
             raise Exception('GOOGLE_API_KEY not found! Please add a valid API key in the .env file')
         self.api_client = googleapiclient.discovery.build(
