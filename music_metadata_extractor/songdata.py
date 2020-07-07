@@ -21,8 +21,10 @@ class SongData:
             raise ve
         except IndexError as ie:
             if str(ie) == "No data found in Spotify":
+                self.track = None
+                self.artists = []
+                self.extraAttrs: dict = extraAttrs
                 logging.warning(ie)
-                raise ValueError("No data found on Spotify") from ie
         except AttributeError as ae:
             if str(ae) == "Error while parsing YouTube page":
                 logging.warning(ae)

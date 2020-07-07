@@ -2,20 +2,27 @@ import requests
 from typing import Tuple
 from bs4 import BeautifulSoup
 from .helpers import is_valid_url
-from .scraper import scrape_embedded_yt_metadata, scrape_yt
+from .scraper import YouTubeScraped
 from music_metadata_extractor.models import BaseProviderInput
 
 
 def get_info(url: str) -> Tuple[BaseProviderInput, dict]:
     """Generate provider input object for YouTube URL"""
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, "lxml")
+    session = requests.Session()
+    
+    # In case of shortened links, get the original link
+    response = session.head(url, allow_redirects=True)
+    main_url = response.url
+    
+    main_response = requests.get(main_url)
+    soup = BeautifulSoup(main_response.content, "lxml")
 
     if not is_valid_url(soup):
         raise ValueError("Video unavailable!")
 
     try:
-        return scrape_yt(soup)
+        scraped_data = YouTubeScraped(main_url, soup)
+        return scraped_data.scrape_yt()
     except AttributeError as ae:
         if str(ae) == "'NoneType' object has no attribute 'text'":
             raise Exception("Error while parsing YouTube page") from ae

@@ -41,22 +41,21 @@ tests = [
     },
     {
         "link": "https://youtu.be/sh55BDdjxu4",
-        "expectation": Expected.PASS,
-        "result": {"name": "Khayal", "artists": ["Shamoon Ismail"],},
+        "expectation": Expected.NO_METADATA_FOUND,
     },
     {
         "link": "https://www.youtube.com/watch?v=CYDM-8jAG6U&list=RDCYDM-8jAG6U&start_radio=1",
-        "expectation": Expected.PASS,
-        "result": {
-            "name": "The Best Summer of My Life",
-            "artists": ["Graham Reynolds"],
-        },
+        "expectation": Expected.NO_METADATA_FOUND,
     },
     # Unavailable video
     {"link": "https://youtu.be/VrBKxr309i4", "expectation": Expected.VIDEO_UNAVAILABLE},
     {
         "link": "https://www.youtube.com/watch?v=VLnWf1sQkjY",
-        "expectation": Expected.NO_METADATA_FOUND,
+        "expectation": Expected.PASS,
+        "result": {
+            "name": "Jizz In My Pants",
+            "artists": ["The Lonely Island"]
+        }
     },
     {
         "link": "https://youtu.be/DoqNQGakX7g",
@@ -79,8 +78,8 @@ tests = [
     },
     {
         "link": "https://www.youtube.com/watch?v=Ozo8LyvS4fE",
-        "expectation": Expected.PASS,
-        "result": {"name": "Let Me Live / Let Me Die", "artists": ["Des Rocs"],},
+        "expectation": Expected.NO_METADATA_FOUND,
+        # "result": {"name": "Let Me Live / Let Me Die", "artists": ["Des Rocs"],},
     },
     {
         "link": "https://www.youtube.com/watch?v=4--OKda1qzU",
@@ -94,10 +93,16 @@ tests = [
 def test_songData(test_params):
     input_song_link = test_params["link"]
     expectation = test_params["expectation"]
+    print('\n')
     print(input_song_link)
     if expectation is Expected.NO_METADATA_FOUND:
-        with pytest.raises(ValueError, match="No data found on Spotify"):
-            song_data = SongData(input_song_link)
+        song_data = SongData(input_song_link)
+        print(song_data)
+        assert song_data.track is None
+        assert len(song_data.artists) == 0
+        assert song_data.extraAttrs is not None
+        assert song_data.extraAttrs['youtube']['views'] is not None
+        assert song_data.extraAttrs['youtube']['posted_date'] is not None
     elif expectation is Expected.VIDEO_UNABAILABLE_TO_PARSER:
         with pytest.raises(ValueError, match="Error while parsing YouTube page"):
             song_data = SongData(input_song_link)
@@ -115,6 +120,5 @@ def test_songData(test_params):
 
         track = song_data.track
         artists = song_data.artists
-        extraAttrs = song_data.extraAttrs
         assert track.name == expected_data["name"]
         assert artists[0].name == expected_data["artists"][0]
