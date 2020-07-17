@@ -10,8 +10,8 @@ README = (HERE / "README.md").read_text()
 install_requires = [
     "beautifulsoup4==4.9.0",
     "lxml==4.5.0",
-    "python-dotenv==0.12.0",
-    "requests==2.23.0",
+    "python-dotenv>=0.14.0",
+    "requests>=2.24.0",
     "spotipy==2.10.0",
     "youtube-title-parse==1.0.0",
     "google-api-python-client==1.9.3",
