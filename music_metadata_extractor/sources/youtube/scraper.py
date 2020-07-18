@@ -20,7 +20,7 @@ class YouTubeScraped:
         try:
             self.api_key = getenv('GOOGLE_APPLICATION_CREDENTIALS')
         except:
-            raise Exception('GOOGLE_API_KEY not found! Please add a valid API key in the .env file')
+            raise Exception('GOOGLE_APPLICATION_CREDENTIALS not found! Please add a valid API key in the .env file')
         self.api_client = googleapiclient.discovery.build(
             'youtube', 'v3', developerKey=self.api_key, cache_discovery=False
         )
@@ -38,20 +38,19 @@ class YouTubeScraped:
         return response['items'][0]
 
     def get_extra_attrs(self) -> dict:
-
-        yt_views = self.api_data['statistics']['viewCount']
-        yt_date = self.api_data['snippet']['publishedAt']
-
         return {
             'youtube': {
-                'views': yt_views,
-                'posted_date': isoparser(yt_date)
+                'title': self.api_data['snippet']['title'],
+                'views': self.api_data['statistics']['viewCount'],
+                'posted_date': isoparser(self.api_data['snippet']['publishedAt'])
             }
         }
 
     def scrape_yt(self) -> Tuple[BaseProviderInput, dict]:
         """Scraper function for YouTube videos"""
+        
         # Check if video page has a "Music in this video" section
+        # This section is not provided by the YouTube API directly and needs to be scraped
         if len(self.soup.find_all("li", class_="watch-meta-item yt-uix-expander-body")) > 1:
             output, extras = self.scrape_embedded_yt_metadata()
             if output.song_name is not None and output.artist_name is not None:
