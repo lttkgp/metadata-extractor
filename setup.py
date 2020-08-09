@@ -8,20 +8,17 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 install_requires = [
-    "beautifulsoup4==4.9.0",
-    "lxml==4.5.0",
-    "python-dotenv>=0.14.0",
-    "requests>=2.24.0",
-    "spotipy==2.10.0",
-    "youtube-title-parse==1.0.0",
-    "google-api-python-client==1.9.3",
-    "google-auth-oauthlib==0.4.1",
-    "google-auth-httplib2==0.0.3",
-    "google-auth==1.18.0",
-    "python-dateutil==2.8.1"
+    "spotipy==2.13.0",
+    "requests==2.24.0",
+    "youtube_title_parse==1.0.0",
+    "beautifulsoup4==4.9.1",
+    "google_api_python_client==1.10.0",
+    "pytest==6.0.1",
+    "python-dotenv==0.14.0",
+    "python_dateutil==2.8.1",
 ]
 
-tests_require = ["pytest==5.4.1"]
+tests_require = ["pytest==6.0.1"]
 
 # This call to setup() does all the work
 setup(

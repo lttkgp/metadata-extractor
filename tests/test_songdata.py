@@ -52,10 +52,7 @@ tests = [
     {
         "link": "https://www.youtube.com/watch?v=VLnWf1sQkjY",
         "expectation": Expected.PASS,
-        "result": {
-            "name": "Jizz In My Pants",
-            "artists": ["The Lonely Island"]
-        }
+        "result": {"name": "Jizz In My Pants", "artists": ["The Lonely Island"]},
     },
     {
         "link": "https://youtu.be/DoqNQGakX7g",
@@ -93,7 +90,7 @@ tests = [
 def test_songData(test_params):
     input_song_link = test_params["link"]
     expectation = test_params["expectation"]
-    print('\n')
+    print("\n")
     print(input_song_link)
     if expectation is Expected.NO_METADATA_FOUND:
         song_data = SongData(input_song_link)
@@ -101,8 +98,8 @@ def test_songData(test_params):
         assert song_data.track is None
         assert len(song_data.artists) == 0
         assert song_data.extraAttrs is not None
-        assert song_data.extraAttrs['youtube']['views'] is not None
-        assert song_data.extraAttrs['youtube']['posted_date'] is not None
+        assert song_data.extraAttrs["youtube"]["views"] is not None
+        assert song_data.extraAttrs["youtube"]["posted_date"] is not None
     elif expectation is Expected.VIDEO_UNABAILABLE_TO_PARSER:
         with pytest.raises(ValueError, match="Error while parsing YouTube page"):
             song_data = SongData(input_song_link)
