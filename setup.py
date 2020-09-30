@@ -11,6 +11,7 @@ install_requires = [
     "spotipy==2.13.0",
     "requests==2.24.0",
     "youtube_title_parse==1.0.0",
+    "lxml==4.5.2",
     "beautifulsoup4==4.9.1",
     "google_api_python_client==1.10.0",
     "pytest==6.0.1",
