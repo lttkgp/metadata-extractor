@@ -1,7 +1,6 @@
 import requests
 from typing import Tuple
 from bs4 import BeautifulSoup
-from .helpers import is_valid_url
 from .scraper import YouTubeScraped
 from music_metadata_extractor.models import BaseProviderInput
 
@@ -16,9 +15,6 @@ def get_info(url: str) -> Tuple[BaseProviderInput, dict]:
 
     main_response = requests.get(main_url)
     soup = BeautifulSoup(main_response.content, "lxml")
-
-    if not is_valid_url(soup):
-        raise ValueError("Video unavailable!")
 
     try:
         scraped_data = YouTubeScraped(main_url, soup)
