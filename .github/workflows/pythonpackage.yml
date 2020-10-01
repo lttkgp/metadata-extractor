@@ -43,3 +43,11 @@ jobs:
         SPOTIPY_CLIENT_SECRET: ${{ secrets.SPOTIPY_CLIENT_SECRET }}
       run: |
         pytest
+    - name: Publish package to PyPI
+      env:
+        VERSION: ${{ github.event.release.tag_name }}
+        USERNAME: __token__
+        PASSWORD: ${{ secrets.PYPI_APIKEY }}
+      run: |
+        python setup.py sdist bdist_wheel
+        twine upload dist/*
