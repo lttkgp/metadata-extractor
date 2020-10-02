@@ -19,12 +19,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install lxml deps
-      run: |
-        sudo cp /etc/apt/sources.list /etc/apt/sources.list~
-        sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
-        sudo apt-get update
-        sudo apt-get build-dep python3-lxml
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
