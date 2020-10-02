@@ -39,7 +39,7 @@ class YouTubeScraped:
         id = self.get_youtube_id()
         request = self.api_client.videos().list(part=self.request_parts, id=id)
         response = request.execute()
-        return response["items"][0]
+        return response["items"][0] if len(response["items"]) > 0 else None
 
     def get_extra_attrs(self) -> dict:
         return {
@@ -52,6 +52,9 @@ class YouTubeScraped:
 
     def scrape_yt(self) -> Tuple[BaseProviderInput, dict]:
         """Scraper function for YouTube videos"""
+
+        if not self.api_data:
+            return None, None
 
         # Check if video page has a "Music in this video" section
         # This section is not provided by the YouTube API directly and needs to be scraped

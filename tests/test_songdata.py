@@ -107,7 +107,7 @@ def test_songData(test_params):
         with pytest.raises(ValueError, match="Unsupported URL!"):
             song_data = SongData(input_song_link)
     elif expectation is Expected.VIDEO_UNAVAILABLE:
-        with pytest.raises(ValueError, match="Video unavailable!"):
+        with pytest.raises(ValueError, match="Unable to fetch metadata for input link"):
             song_data = SongData(input_song_link)
     else:
         song_data = SongData(input_song_link)
