@@ -2,8 +2,10 @@ name: publish-PyPI CD
 
 on:
   workflow_run:
-    workflows: ["metadata-extractor CI"]
+    workflows: ["Run Tests CI"]
     branches: [master]
+  pull_request:
+    branches: [ master ]
     types: 
       - completed
 
