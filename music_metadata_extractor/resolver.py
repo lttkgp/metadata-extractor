@@ -15,7 +15,7 @@ def _is_youtube(input_url: str) -> bool:
     """Verify if input url is a valid YouTube link"""
     if bool(
         re.match(
-            r"http(?:s?):\/\/(?:(www|m)\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?",
+            r"http(?:s?):\/\/(?:(www|m)\.)?youtu(?:be\.com)*",
             input_url,
         )
     ):
