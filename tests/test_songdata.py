@@ -89,6 +89,25 @@ tests = [
         "expectation": Expected.PASS,
         "result": {"name": "Moving on", "artists": ["Kodaline"], },
     },
+    {
+        "link": "https://music.youtube.com/watch?v=gux5TRLMoxA&feature=share",
+        "expectation": Expected.PASS,
+        "result": {"name": "Have You Ever Seen The Rain", "artists": ["Creedence Clearwater Revival"], },
+    },
+    {
+        "link": "https://music.youtube.com/watch?v=A__cH65WRvE&feature=share",
+        "expectation": Expected.PASS,
+        "result": {"name": "Californication", "artists": ["Red Hot Chili Peppers"], },
+    },
+    {
+        "link": "https://music.youtube.com/watch?v=lnc2ljZA3bk&feature=share",
+        "expectation": Expected.PASS,
+        "result": {"name": "Right Down the Line", "artists": ["Gerry Rafferty"], },
+    },
+    {
+        "link": "https://music.youtube.com/watch?v=APWhx97QvxE&list=RDAMVMCP26UahQsLQ",
+        "expectation": Expected.NO_METADATA_FOUND,
+    }
 ]
 
 
