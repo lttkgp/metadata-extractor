@@ -1,12 +1,16 @@
-import requests
+"""Fetch YouTube URL information using the public API."""
 from typing import Tuple
+
+import requests
 from bs4 import BeautifulSoup
-from .scraper import YouTubeScraped
+
 from music_metadata_extractor.models import BaseProviderInput
+
+from .scraper import YouTubeScraped
 
 
 def get_info(url: str) -> Tuple[BaseProviderInput, dict]:
-    """Generate provider input object for YouTube URL"""
+    """Generate provider input object for YouTube URL."""
     session = requests.Session()
 
     # In case of shortened links, get the original link
