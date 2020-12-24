@@ -1,6 +1,6 @@
 import logging
 from urllib import parse
-from config import *
+from music_metadata_extractor.config import *
 
 
 def convert_yt_music(input_url: str) -> str:
