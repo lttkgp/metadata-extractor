@@ -9,35 +9,39 @@ class Expected(Enum):
     NO_METADATA_FOUND = 2  # See if we can convert these to PASS
     UNSUPPORTED_LINK = 3  # Support these links if possible
     VIDEO_UNAVAILABLE = 4
-    VIDEO_UNABAILABLE_TO_PARSER = 5  # Add support to verify cause (deleted vs region)
+    # Add support to verify cause (deleted vs region)
+    VIDEO_UNABAILABLE_TO_PARSER = 5
 
 
 tests = [
     {
         "link": "https://www.youtube.com/watch?v=XoYu7K6Ywkg",
         "expectation": Expected.PASS,
-        "result": {"name": "Last Hope", "artists": ["Paramore"],},
+        "result": {"name": "Last Hope", "artists": ["Paramore"], },
     },
-    {"link": "https://youtu.be/q604eed4ad0", "expectation": Expected.NO_METADATA_FOUND},
-    {"link": "https://youtu.be/nXTtA5bKHrM", "expectation": Expected.NO_METADATA_FOUND},
+    {"link": "https://youtu.be/q604eed4ad0",
+        "expectation": Expected.NO_METADATA_FOUND},
+    {"link": "https://youtu.be/nXTtA5bKHrM",
+        "expectation": Expected.NO_METADATA_FOUND},
     {
         "link": "https://www.youtube.com/watch?v=VaGDSHBV1dQ",
         "expectation": Expected.PASS,
-        "result": {"name": "Deadmen", "artists": ["SAINT PHNX"],},
+        "result": {"name": "Deadmen", "artists": ["SAINT PHNX"], },
     },
     {
         "link": "https://youtu.be/Il7Nv270zNk",
         "expectation": Expected.PASS,
-        "result": {"name": "cold/mess", "artists": ["Prateek Kuhad"],},
+        "result": {"name": "cold/mess", "artists": ["Prateek Kuhad"], },
     },
     {
         "link": "https://www.youtube.com/attribution_link?a=BQnXYx6P5Zw&u=%2Fwatch%3Fv%3DPib8eYDSFEI%26feature%3Dshare",
-        "expectation": Expected.UNSUPPORTED_LINK,
+        "expectation": Expected.PASS,
+        "result": {"name": "Crystalised", "artists": ["The xx"], },
     },
     {
         "link": "https://www.youtube.com/watch?v=LE20ORdjaxw",
         "expectation": Expected.PASS,
-        "result": {"name": "Another Time", "artists": ["City of the Sun"],},
+        "result": {"name": "Another Time", "artists": ["City of the Sun"], },
     },
     {
         "link": "https://youtu.be/sh55BDdjxu4",
@@ -48,7 +52,8 @@ tests = [
         "expectation": Expected.NO_METADATA_FOUND,
     },
     # Unavailable video
-    {"link": "https://youtu.be/VrBKxr309i4", "expectation": Expected.VIDEO_UNAVAILABLE},
+    {"link": "https://youtu.be/VrBKxr309i4",
+        "expectation": Expected.VIDEO_UNAVAILABLE},
     {
         "link": "https://www.youtube.com/watch?v=VLnWf1sQkjY",
         "expectation": Expected.PASS,
@@ -57,17 +62,18 @@ tests = [
     {
         "link": "https://youtu.be/DoqNQGakX7g",
         "expectation": Expected.PASS,
-        "result": {"name": "Vision", "artists": ["Simmy"],},
+        "result": {"name": "Vision", "artists": ["Simmy"], },
     },
-    {"link": "https://youtu.be/cSExygIJBoE", "expectation": Expected.NO_METADATA_FOUND},
+    {"link": "https://youtu.be/cSExygIJBoE",
+        "expectation": Expected.NO_METADATA_FOUND},
     {
         "link": "https://www.youtube.com/attribution_link?a=wEtuCP2uXaQ&u=%2Fwatch%3Fv%3DJ9AqA2gJ38M%26feature%3Dshare",
-        "expectation": Expected.UNSUPPORTED_LINK,
+        "expectation": Expected.NO_METADATA_FOUND,
     },
     {
         "link": "https://youtu.be/Y7ix6RITXM0",
         "expectation": Expected.PASS,
-        "result": {"name": "Maps", "artists": ["Maroon 5"],},
+        "result": {"name": "Maps", "artists": ["Maroon 5"], },
     },
     {
         "link": "https://www.youtube.com/watch?v=IEF6mw7eK4s",
@@ -81,7 +87,7 @@ tests = [
     {
         "link": "https://www.youtube.com/watch?v=4--OKda1qzU",
         "expectation": Expected.PASS,
-        "result": {"name": "Moving on", "artists": ["Kodaline"],},
+        "result": {"name": "Moving on", "artists": ["Kodaline"], },
     },
 ]
 

@@ -10,7 +10,12 @@ class SongData:
 
     def __init__(self, input_url: str):
         """Constructor for the SongData class."""
-        provider_input, extraAttrs = get_source_data(input_url)
+        try:
+            provider_input, extraAttrs = get_source_data(input_url)
+        except Exception as e:
+            logging.error(e)
+            raise ValueError("Unable to fetch metadata for input link") from e
+
         try:
             provider_data: BaseProvider = SpotifyProvider(provider_input).data
             self.track: Track = provider_data.track
