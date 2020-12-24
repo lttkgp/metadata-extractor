@@ -26,7 +26,7 @@ class YouTubeScraped:
         self.soup = soup
         try:
             self.api_key = getenv("GOOGLE_APPLICATION_CREDENTIALS")
-        except:
+        except Exception:
             raise Exception(
                 "GOOGLE_APPLICATION_CREDENTIALS not found! Please add a valid API key in the .env file"
             )
