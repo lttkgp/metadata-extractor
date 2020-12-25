@@ -1,27 +1,32 @@
-from typing import Tuple
-
-from youtube_title_parse import get_artist_title
-from .helpers import clean_channel, check_key_get_value
-from music_metadata_extractor.models import BaseProviderInput, StringInput, DictInput
-
-import requests
-import googleapiclient.discovery
+"""Module to fetch data from YouTube."""
 
 from os import getenv
+from typing import Tuple
 from urllib import parse
-from dotenv import load_dotenv, find_dotenv
+
+import googleapiclient.discovery
+import requests
 from dateutil.parser import isoparse as isoparser
+from dotenv import find_dotenv, load_dotenv
+from youtube_title_parse import get_artist_title
+
+from music_metadata_extractor.models import (BaseProviderInput, DictInput,
+                                             StringInput)
+
+from .helpers import check_key_get_value, clean_channel
 
 load_dotenv(find_dotenv())
 
 
 class YouTubeScraped:
+    """Class to fetch metadata from YouTube, now uses the API."""
+
     def __init__(self, url, soup):
         self.url = url
         self.soup = soup
         try:
             self.api_key = getenv("GOOGLE_APPLICATION_CREDENTIALS")
-        except:
+        except Exception:
             raise Exception(
                 "GOOGLE_APPLICATION_CREDENTIALS not found! Please add a valid API key in the .env file"
             )
@@ -32,16 +37,19 @@ class YouTubeScraped:
         self.api_data = self.get_yt_api_response()
 
     def get_youtube_id(self):
+        """Fetch ID of a YouTube video (The `v` URL parameter)."""
         parsed = parse.parse_qs(parse.urlsplit(self.url).query)
         return parsed["v"][0]
 
     def get_yt_api_response(self):
+        """Send a request to the YouTube API using the video ID."""
         id = self.get_youtube_id()
         request = self.api_client.videos().list(part=self.request_parts, id=id)
         response = request.execute()
         return response["items"][0] if len(response["items"]) > 0 else None
 
     def get_extra_attrs(self) -> dict:
+        """Fetch extraAttributes (Title, views and posted date) from the video."""
         return {
             "youtube": {
                 "title": self.api_data["snippet"]["title"],
@@ -51,8 +59,7 @@ class YouTubeScraped:
         }
 
     def scrape_yt(self) -> Tuple[BaseProviderInput, dict]:
-        """Scraper function for YouTube videos"""
-
+        """Scraper function for YouTube videos."""
         if not self.api_data:
             return None, None
 
@@ -85,8 +92,9 @@ class YouTubeScraped:
         return DictInput(title, artist), extra
 
     def scrape_embedded_yt_metadata(self) -> Tuple[BaseProviderInput, dict]:
-        """Scrapper function for videos with "Music in this video" section"""
-        tags = self.soup.find_all("li", class_="watch-meta-item yt-uix-expander-body")
+        """Scrapper function for videos with "Music in this video" section."""
+        tags = self.soup.find_all(
+            "li", class_="watch-meta-item yt-uix-expander-body")
 
         info = {}
         for tag in tags:

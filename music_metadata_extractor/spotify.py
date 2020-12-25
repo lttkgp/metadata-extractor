@@ -1,35 +1,54 @@
+"""
+Fetch metadata using Spotify's public API.
+
+For every URL, use the Spotify Search API to find the song on Spotify. If a match
+is found, return metadata for the track - Artist and Track information. The fields parsed
+before returning are defined in the function `parse_track_response`
+"""
+
+
 from typing import List
+
 from spotipy import Spotify
+
+from .models import (Artist, BaseProvider, BaseProviderInput, ProviderData,
+                     Track)
 from .utils import get_spotify_client
-from .models import BaseProvider, ProviderData, BaseProviderInput
-from .models import Track, Artist
 
 SPOTIFY_CLIENT = get_spotify_client()
 
 
 class SpotifyProvider(BaseProvider):
+    """Class derived from BaseProvider class that calls the relevant method depending on the type of input given."""
+
     def __init__(self, input: BaseProviderInput):
         super().__init__(input)
 
     def handle_string_input(self, title_string: str) -> ProviderData:
+        """Handler when input is a string containing title."""
         return search(title=title_string)
 
     def handle_dict_input(self, song_name: str, artist_name: str) -> ProviderData:
+        """Handler when input is a dictionary with song and artist name."""
         return search(title=song_name, artist=artist_name)
 
     def handle_provider_input(self, provider_url: str) -> ProviderData:
+        """Handler when input is a URL that the provider undestands, for example a Spotify URI."""
         return search(id=provider_url)
 
 
 def get_artist(id: str) -> Artist:
     """
     Method to call Spotify's `artist` endpoint.
+
     Documentation: https://developer.spotify.com/documentation/web-api/reference/artists/get-artist/
 
-    Arguments:
+    Arguments
+    ---------
         id {str} -- Spotify artist ID
 
-    Returns:
+    Returns
+    -------
         Artist -- contains required artist metadata
     """
     response = SPOTIFY_CLIENT.artist(id)
@@ -44,12 +63,15 @@ def get_artist(id: str) -> Artist:
 def get_artists(ids: List[str]) -> List[Artist]:
     """
     Method to call Spotify's `artists` endpoint.
+
     Documentation: https://developer.spotify.com/documentation/web-api/reference/artists/get-several-artists/
 
-    Arguments:
+    Arguments
+    --------
         ids {List[str]} -- List of Spotify artist IDs
 
-    Returns:
+    Returns
+    -------
         List[Artist] -- contains required artist metadata for all input IDs
     """
     artists = []
@@ -65,7 +87,7 @@ def get_artists(ids: List[str]) -> List[Artist]:
 
 
 def parse_track_response(track_data: dict) -> ProviderData:
-    """Generate ProviderData from search response (made with type="track")"""
+    """Generate ProviderData from search response (made with type="track")."""
     track_id = track_data["id"]
     song_name = track_data["name"]
     is_cover = False
@@ -99,12 +121,15 @@ def parse_track_response(track_data: dict) -> ProviderData:
 def search(**kwargs) -> ProviderData:
     """
     Method to call Spotify's `search` endpoint.
+
     Documentation: https://developer.spotify.com/documentation/web-api/reference/search/search/
 
-    Raises:
+    Raises
+    ------
         IndexError: if metadata is not found on Spotify
 
-    Returns:
+    Returns
+    -------
         ProviderData -- contains track and artists information
     """
     if "id" in kwargs.keys():
@@ -114,7 +139,8 @@ def search(**kwargs) -> ProviderData:
             q=f"{kwargs['title']} artist:{kwargs['artist']}", type="track", limit=1
         )
     else:
-        response = SPOTIFY_CLIENT.search(q=f"{kwargs['title']}", type="track", limit=1)
+        response = SPOTIFY_CLIENT.search(
+            q=f"{kwargs['title']}", type="track", limit=1)
 
     try:
         track_data = response["tracks"]["items"][0]

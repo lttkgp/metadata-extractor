@@ -1,12 +1,20 @@
+"""
+Module contains the definition of the `SongData` class containing all metadata extracted from a URL.
+
+Checks if a URL is supported, fetches relevant metadata from YouTube and Spotify API.
+In case some data is not found, raises a relevant exception and logs it
+"""
+
+import logging
 from typing import List
+
+from .models import Artist, BaseProvider, BaseProviderInput, Track
 from .resolver import get_source_data
 from .spotify import SpotifyProvider
-from .models import Track, Artist, BaseProviderInput, BaseProvider
-import logging
 
 
 class SongData:
-    """Contains all metadata to be consumed by users of this package"""
+    """Contains all metadata to be consumed by users of this package."""
 
     def __init__(self, input_url: str):
         """Constructor for the SongData class."""
@@ -39,6 +47,7 @@ class SongData:
             raise ValueError("Unable to fetch metadata for input link") from e
 
     def __repr__(self):
+        """Magic method that defines the string representation of an object."""
         return "<SongData(\n\ttrack=%s,\n\tartists=%s,\n\textraAttrs=%s\n)>" % (
             self.track,
             self.artists,

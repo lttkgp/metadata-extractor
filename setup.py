@@ -1,5 +1,6 @@
 import pathlib
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -24,7 +25,7 @@ tests_require = ["pytest==6.0.1"]
 # This call to setup() does all the work
 setup(
     name="music_metadata_extractor",
-    version="1.2.0",
+    version="1.2.1",
     description="Fetch music metadata from common Music APIs for a variety of data sources",
     long_description=README,
     long_description_content_type="text/markdown",
