@@ -47,8 +47,7 @@ def get_artist(id: str) -> Artist:
     ---------
         id {str} -- Spotify artist ID
 
-    Returns            print(provider_data)
-
+    Returns
     -------
         Artist -- contains required artist metadata
     """

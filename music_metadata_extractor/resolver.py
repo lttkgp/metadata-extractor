@@ -56,7 +56,6 @@ def _is_spotify_track(input_url: str) -> bool:
         )
     ):
         return True
-    print("Not spotify!")
     return False
 
 def _resolve_link(input_url: str) -> SupportedSources:
