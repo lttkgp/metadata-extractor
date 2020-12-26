@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Tuple
 
 from .models import BaseProviderInput
-from .sources import convert_yt_music, get_yt_info
+from .sources import convert_yt_music, get_yt_info, get_spotify_info
 
 
 class SupportedSources(Enum):
@@ -23,6 +23,7 @@ class SupportedSources(Enum):
 
     youtube = 1
     youtube_music = 2
+    spotify = 3
 
 
 def _is_youtube(input_url: str) -> bool:
@@ -47,6 +48,15 @@ def _is_youtube_music(input_url: str) -> bool:
         return True
     return False
 
+def _is_spotify_track(input_url: str) -> bool:
+    if bool(
+        re.match(
+            r"^https?:\/\/((open)|(play))\.spotify\.com\/track\/*",
+            input_url
+        )
+    ):
+        return True
+    return False
 
 def _resolve_link(input_url: str) -> SupportedSources:
     """Resolve the input link platform."""
@@ -54,6 +64,8 @@ def _resolve_link(input_url: str) -> SupportedSources:
         return SupportedSources.youtube
     elif _is_youtube_music(input_url):
         return SupportedSources.youtube_music
+    elif _is_spotify_track(input_url):
+        return SupportedSources.spotify
     else:
         raise ValueError("Unsupported URL!")
 
@@ -75,6 +87,10 @@ def get_source_data(input_url: str) -> Tuple[BaseProviderInput, dict]:
             raise Exception("No data found on YouTube")
         extraAttrs["youtube"]["converted_link"] = convert_yt_music(
             input_url)
+    elif source_type == SupportedSources.spotify:
+        provider_input, extraAttrs = get_spotify_info(input_url)
+        if extraAttrs is None:
+            raise Exception("No data found on YouTube")
     else:
         raise ValueError("Unsupported URL!")
     return provider_input, extraAttrs

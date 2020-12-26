@@ -133,7 +133,7 @@ def search(**kwargs) -> ProviderData:
         ProviderData -- contains track and artists information
     """
     if "id" in kwargs.keys():
-        response = SPOTIFY_CLIENT.track(id)
+        response = SPOTIFY_CLIENT.track(kwargs['id'])
     elif "artist" in kwargs.keys():
         response = SPOTIFY_CLIENT.search(
             q=f"{kwargs['title']} artist:{kwargs['artist']}", type="track", limit=1
@@ -143,8 +143,10 @@ def search(**kwargs) -> ProviderData:
             q=f"{kwargs['title']}", type="track", limit=1)
 
     try:
-        track_data = response["tracks"]["items"][0]
-        response = parse_track_response(track_data)
-        return response
+        if "id" in kwargs.keys():
+            track_data = response
+        else:
+            track_data = response["tracks"]["items"][0]
+        return parse_track_response(track_data)
     except IndexError as e:
         raise IndexError("No data found in Spotify") from e
