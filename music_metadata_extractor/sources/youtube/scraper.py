@@ -33,7 +33,7 @@ class YouTubeScraped:
         self.api_client = googleapiclient.discovery.build(
             "youtube", "v3", developerKey=self.api_key, cache_discovery=False
         )
-        self.request_parts = ["snippet", "statistics"]
+        self.request_parts = ["snippet", "statistics", "status"]
         self.api_data = self.get_yt_api_response()
 
     def get_youtube_id(self):
@@ -55,6 +55,7 @@ class YouTubeScraped:
                 "title": self.api_data["snippet"]["title"],
                 "views": self.api_data["statistics"]["viewCount"],
                 "posted_date": isoparser(self.api_data["snippet"]["publishedAt"]),
+                "embeddable": self.api_data["status"]["embeddable"]
             }
         }
 

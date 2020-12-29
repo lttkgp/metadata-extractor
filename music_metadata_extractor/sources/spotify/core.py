@@ -25,7 +25,7 @@ def search_yt_title_artist(track_name: str, artist_name: str) -> dict:
         if kind_id == 'youtube#video':
             video_id = item['id']['videoId']
             video_request = api_client.videos().list(
-                part=["snippet", "statistics"], id=video_id)
+                part=["snippet", "statistics", "status"], id=video_id)
             video_response = video_request.execute()
             video = video_response['items'][0]
             return {
@@ -33,7 +33,8 @@ def search_yt_title_artist(track_name: str, artist_name: str) -> dict:
                     "title": video["snippet"]["title"],
                     "views": video["statistics"]["viewCount"],
                     "posted_date": isoparser(video["snippet"]["publishedAt"]),
-                    "converted_link": f"https://www.youtube.com/watch?v={video_id}"
+                    "converted_link": f"https://www.youtube.com/watch?v={video_id}",
+                    "embeddable": video["status"]["embeddable"]
                 }
             }
 
