@@ -55,7 +55,8 @@ class YouTubeScraped:
                 "title": self.api_data["snippet"]["title"],
                 "views": self.api_data["statistics"]["viewCount"],
                 "posted_date": isoparser(self.api_data["snippet"]["publishedAt"]),
-                "embeddable": self.api_data["status"]["embeddable"]
+                "embeddable": self.api_data["status"]["embeddable"],
+                "converted_link": self.url
             }
         }
 

@@ -78,7 +78,6 @@ def get_source_data(input_url: str) -> Tuple[BaseProviderInput, dict]:
 
         if extraAttrs is None:
             raise Exception("No data found on YouTube")
-        extraAttrs["youtube"]["converted_link"] = input_url
     elif source_type == SupportedSources.youtube_music:
         provider_input, extraAttrs = get_yt_info(
             convert_yt_music(input_url))
