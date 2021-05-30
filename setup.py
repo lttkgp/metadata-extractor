@@ -25,7 +25,7 @@ tests_require = ["pytest==6.0.1"]
 # This call to setup() does all the work
 setup(
     name="music_metadata_extractor",
-    version="1.3.4",
+    version="1.3.5",
     description=
     "Fetch music metadata from common Music APIs for a variety of data sources",
     long_description=README,
