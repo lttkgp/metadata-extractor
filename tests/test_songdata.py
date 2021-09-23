@@ -88,7 +88,7 @@ tests = [
     {
         "link": "https://www.youtube.com/watch?v=4--OKda1qzU",
         "expectation": Expected.PASS,
-        "result": {"name": "Moving on", "artists": ["Kodaline"], },
+        "result": {"name": "Moving On", "artists": ["Kodaline"], },
     },
     {
         "link": "https://music.youtube.com/watch?v=gux5TRLMoxA&feature=share",
