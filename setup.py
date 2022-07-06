@@ -17,7 +17,7 @@ install_requires = [
     "python_dateutil==2.8.1",
     "spotipy==2.18.0",
     "youtube_title_parse==1.0.0",
-    "lxml==4.6.3"
+    "lxml==4.9.1"
 ]
 
 tests_require = ["pytest==6.0.1"]
